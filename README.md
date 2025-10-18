@@ -36,5 +36,5 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-**CodeConnect - Developer Community Platform
+## CodeConnect - Developer Community Platform
 A Web Application providing a developer-focused web platform where users can post tutorials, share projects, ask questions, and interact with others. 

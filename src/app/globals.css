@@ -40,3 +40,264 @@ a {
     color-scheme: dark;
   }
 }
+
+
+
+/*testtt*\
+/* -------- Base / Layout -------- */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color: #fff;
+  background: #0b0b0b;
+}
+
+.cc-container {
+  max-width: 1120px;
+  margin-inline: auto;
+  padding: 0 1.25rem;
+}
+
+/* -------- Background -------- */
+.cc-bg {
+  position: relative;
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #ef4444 0%, #fb923c 40%, #10b981 100%);
+  overflow: hidden;
+}
+.cc-blob {
+  position: absolute;
+  filter: blur(60px);
+  opacity: .55;
+  pointer-events: none;
+}
+.cc-blob--tl {
+  top: -140px; left: -140px;
+  width: 380px; height: 380px; border-radius: 50%;
+  background: #e879f9;
+}
+.cc-blob--br {
+  right: -180px; bottom: -180px;
+  width: 460px; height: 460px; border-radius: 50%;
+  background: #22d3ee;
+}
+
+/* -------- Header -------- */
+.cc-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0;
+}
+.cc-header__brand { display: flex; align-items: center; gap: .5rem; }
+.cc-logo {
+  width: 32px; height: 32px; border-radius: 999px;
+  display: grid; place-items: center;
+  background: rgba(0,0,0,.85); color: #fff; font-weight: 800;
+}
+.cc-logo--footer { background: #000; }
+.cc-brand { font-weight: 700; letter-spacing: .2px; }
+
+.cc-header__nav { display: flex; gap: .5rem; }
+.cc-btn {
+  padding: 10px 16px; border-radius: 999px;
+  font-size: 14px; text-decoration: none; transition: .2s ease;
+  border: 1px solid rgba(255,255,255,.25);
+}
+.cc-btn--ghost { background: rgba(0,0,0,.6); color: #fff; }
+.cc-btn--ghost:hover { background: rgba(0,0,0,.75); }
+.cc-btn--solid { background: #fff; color: #0f172a; border-color: transparent; }
+.cc-btn--solid:hover { background: #f1f5f9; }
+
+/* CTA button */
+.cc-btn--cta {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: 12px 18px; border-radius: 999px;
+  background: rgba(0,0,0,.85); color: #fff; text-decoration: none;
+  border: 1px solid rgba(255,255,255,.2);
+}
+.cc-btn--cta:hover { background: rgba(0,0,0,1); }
+.cc-icon { width: 18px; height: 18px; }
+
+/* -------- Hero -------- */
+.cc-hero {
+  padding: 24px 0 12px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: start;
+  gap: 16px;
+}
+
+
+
+/*testt*/
+/* === Share bubble (from your Figma numbers) === */
+.share-bubble {
+  position: absolute;
+  width: 246.55px;
+  height: 117.16px;
+  left: 441px;       /* from Figma */
+  top: 276px;        /* from Figma */
+  pointer-events: none; /* optional */
+}
+
+/* Rounded base (Rectangle 32 in Figma) */
+.share-bubble::before {
+  content: "";
+  position: absolute;
+  width: 239px;      /* from Figma */
+  height: 85px;      /* from Figma */
+  left: 0px;
+  top: 0px;
+  background: #28A745;     /* your green */
+  border-radius: 51px;      /* from Figma */
+}
+
+/* Tail (Polygon 3 in Figma) */
+.share-bubble::after {
+  content: "";
+  position: absolute;
+  width: 95.33px;    /* from Figma */
+  height: 95.33px;   /* from Figma */
+  left: 152px;       /* 593 - 441 = 152 (relative to container) */
+  top: 12px;         /* 288 - 276 = 12 (relative to container) */
+  background: #28A745;
+  transform: rotate(144.06deg);
+  /* clip to a triangle to mimic the speech-tail */
+  clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+}
+
+/* Text */
+.share-bubble__text {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 239px;      /* match the rounded base, not the tail */
+  height: 85px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 42px;
+  line-height: 1;
+  color: #000;       /* black like your design */
+}
+
+/*test*/
+
+
+.cc-hero__bubbles,
+.cc-hero__bubbles--right {
+  display: flex; gap: .5rem; flex-wrap: wrap;
+  justify-content: center;
+}
+.cc-hero__bubbles--right { justify-content: center; }
+.cc-bubble {
+  display: inline-block;
+  padding: 8px 14px;
+  background: rgba(255,255,255,.85);
+  border: 1px solid rgba(255,255,255,.6);
+  color: #0f172a;
+  border-radius: 999px;
+  font-size: 14px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+
+
+  
+}
+.cc-hero__center { text-align: center; }
+.cc-hero__title { font-size: clamp(36px, 6vw, 64px); margin: 0; font-weight: 900; text-shadow: 0 1px 0 rgba(0,0,0,.15); }
+.cc-hero__tag { margin-top: 10px; font-size: clamp(14px, 2.5vw, 20px); font-weight: 600; color: rgba(255,255,255,.95); }
+
+/* -------- Section Title -------- */
+.cc-section-title {
+  margin: 28px 0 10px;
+  font-size: clamp(18px, 3vw, 28px);
+  font-weight: 700;
+}
+
+/* -------- Cards -------- */
+.cc-cards {
+  display: grid; gap: 16px;
+  grid-template-columns: 1fr;
+}
+.cc-card {
+  background: rgba(255,255,255,.88);
+  color: #0f172a;
+  border: 1px solid rgba(255,255,255,.6);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 10px 18px rgba(0,0,0,.12);
+  min-height: 132px;
+}
+.cc-card__title { margin: 0 0 6px; font-weight: 700; }
+.cc-card__desc { margin: 0; line-height: 1.6; color: #334155; font-size: 14.5px; }
+
+/* -------- Illustrations -------- */
+.cc-illustrations {
+  margin-top: 18px;
+  display: grid; gap: 16px; grid-template-columns: 1fr;
+}
+.cc-ill {
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 18px;
+  background: rgba(255,255,255,.82);
+  overflow: hidden;
+  box-shadow: 0 10px 18px rgba(0,0,0,.12);
+}
+.cc-ill img { width: 100%; height: 176px; object-fit: cover; display: block; }
+
+/* -------- Partners -------- */
+.cc-partners {
+  margin-top: 24px;
+  display: grid; gap: 14px;
+  grid-template-columns: repeat(2, 1fr);
+}
+.cc-partner {
+  height: 44px; display: flex; align-items: center; justify-content: center;
+  border-radius: 12px;
+  background: rgba(255,255,255,.85);
+  color: #0f172a; font-weight: 600;
+  border: 1px solid rgba(255,255,255,.6);
+  box-shadow: 0 6px 12px rgba(0,0,0,.1);
+}
+
+/* -------- CTA -------- */
+.cc-cta { text-align: center; margin: 24px 0 40px; }
+.cc-cta__lead { font-size: 18px; margin: 0; }
+.cc-cta__sub { margin-top: 8px; font-size: 14px; color: rgba(255,255,255,.95); }
+
+/* -------- Footer -------- */
+.cc-footer {
+  margin-top: 24px;
+  background: rgba(0,0,0,.4);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+.cc-footer__grid {
+  display: grid; gap: 24px;
+  grid-template-columns: 1fr;
+  padding: 32px 0 8px;
+}
+.cc-footer__brand { display: flex; align-items: center; gap: 8px; }
+.cc-footer__title { margin: 0 0 8px; font-weight: 700; }
+.cc-footer__list { list-style: none; padding: 0; margin: 0; }
+.cc-footer__list a { color: #fff; text-decoration: none; opacity: .95; }
+.cc-footer__list a:hover { text-decoration: underline; }
+.cc-footer__copy {
+  padding: 16px 0 28px;
+  text-align: center; font-size: 13px; color: rgba(255,255,255,.9);
+  border-top: 1px solid rgba(255,255,255,.12);
+}
+
+/* -------- Responsive -------- */
+@media (min-width: 700px) {
+  .cc-hero { align-items: center; }
+  .cc-hero__bubbles { justify-content: start; }
+  .cc-hero__bubbles--right { justify-content: end; }
+  .cc-cards { grid-template-columns: repeat(3, 1fr); }
+  .cc-illustrations { grid-template-columns: repeat(3, 1fr); }
+  .cc-partners { grid-template-columns: repeat(4, 1fr); }
+  .cc-footer__grid { grid-template-columns: repeat(4, 1fr); }
+}

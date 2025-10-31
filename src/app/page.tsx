@@ -15,26 +15,19 @@ export default function Home() {
 
         {/* Hero */}
         <section className="cc-hero">
-          <div className="cc-hero__bubbles">
-            <span className="cc-bubble">Share</span>
-            <span className="cc-bubble">Explore</span>
-            <span className="cc-bubble">Empower</span>
-          </div>
+          {/* five bubbles — keep text same; data-bubble lets us position them */}
+            <span className="cc-bubble" data-bubble="share">Share</span>
+            <span className="cc-bubble" data-bubble="explore">Explore</span>
+            <span className="cc-bubble" data-bubble="empower">Empower</span>
+            <span className="cc-bubble" data-bubble="code">Code</span>
+            <span className="cc-bubble" data-bubble="learn">Learn</span>
 
-          <div className="share-bubble">
-            <span className="share-bubble__text">Share</span>
-          </div>
-
-          <div className="cc-hero__center">
-            <h1 className="cc-hero__title">CodeConnect</h1>
-            <p className="cc-hero__tag">Build by Coders, for Coders.</p>
-          </div>
-
-          <div className="cc-hero__bubbles cc-hero__bubbles--right">
-            <span className="cc-bubble">Code</span>
-            <span className="cc-bubble">Learn</span>
-          </div>
+            <div className="cc-hero__center">
+              <h1 className="cc-hero__title">CodeConnect</h1>
+              <p className="cc-hero__tag">Build by Coders, for Coders.</p>
+            </div>
         </section>
+
 
         {/* Offer */}
         <h3 className="cc-section-title">What we offer to you?</h3>

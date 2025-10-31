@@ -394,3 +394,128 @@ body {
   .cc-brand{ font-size: 22px; line-height: 1; }
   .cc-btn{ height: 34px; font-size: 16px; padding: 0 12px; }
 }
+
+
+/*HERO SECTION TEST*/
+/* ===== Hero (matches Figma layout) ===== */
+.cc-hero{
+  position: relative;
+  min-height: 78vh; /* keep it generous but not full screen */
+  display:flex; align-items:center; justify-content:center;
+  overflow: hidden;
+}
+
+/* Center content */
+.cc-hero__center{ position: relative; z-index: 2; text-align:center; }
+.cc-hero__title{
+  margin:0;
+  font-family: "Chakra Petch", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(42px, 7vw, 82px); /* Figma 82px */
+  line-height: 1.25;
+  color: #fff;
+}
+.cc-hero__tag{
+  margin-top: .6rem;
+  color:#fff;
+  font-size: clamp(16px, 2.2vw, 24px);
+  opacity: .95;
+}
+
+/* Bubbles (base) */
+.cc-bubble{
+  position: absolute;
+  z-index: 1;
+  display:inline-flex; align-items:center; justify-content:center;
+  height: clamp(40px, 7vh, 85px);
+  padding: 0 clamp(14px, 2vw, 24px);
+  border-radius: 999px;
+  font-family: "Chakra Petch", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: clamp(16px, 3.2vw, 48px);
+  line-height: 1;
+  color:#000;
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,.12));
+}
+
+/* Bubble tails */
+.cc-bubble::after{
+  content:"";
+  position:absolute;
+  width: 18px; height: 18px;
+  background: inherit;             /* same color as bubble */
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+/* --- Individual bubbles (positions derived from your Figma) --- */
+/* Reference artboard ≈ 1280x900 → converted to percentages */
+
+/* SHARE: rect 441,276 size 239x85; bubble color #28A745 */
+.cc-bubble[data-bubble="share"]{
+  background:#28A745; color:#fff;
+  left: 34.45%; top: 30.67%;
+  width: clamp(160px, 18.7vw, 239px);
+  transform: rotate(-5deg);
+}
+.cc-bubble[data-bubble="share"]::after{
+  right:-10px; top:55%;
+  transform: translateY(-50%) rotate(210deg);
+}
+
+/* EXPLORE: rect 128,547 size 229x78; color #F3F3F3 */
+.cc-bubble[data-bubble="explore"]{
+  background:#F3F3F3; color:#000;
+  left: 10%; top: 60.78%;
+  width: clamp(150px, 17.9vw, 229px);
+  transform: rotate(3deg);
+}
+.cc-bubble[data-bubble="explore"]::after{
+  right:-10px; top:44%;
+  transform: translateY(-50%) rotate(330deg);
+}
+
+/* EMPOWER: rect 382,699 size 272x66; color #4FC1FF */
+.cc-bubble[data-bubble="empower"]{
+  background:#4FC1FF; color:#000;
+  left: 29.84%; top: 77.67%;
+  width: clamp(170px, 21.25vw, 272px);
+  transform: rotate(2deg);
+}
+.cc-bubble[data-bubble="empower"]::after{
+  right:-10px; top:40%;
+  transform: translateY(-50%) rotate(330deg);
+}
+
+/* CODE: rect 1043,326 size 209x76; color #61AFEF */
+.cc-bubble[data-bubble="code"]{
+  background:#61AFEF; color:#000;
+  left: 81.48%; top: 36.22%;
+  width: clamp(140px, 16.33vw, 209px);
+  transform: translateX(-100%) rotate(4deg); /* anchor to right */
+}
+.cc-bubble[data-bubble="code"]::after{
+  left:-10px; top:60%;
+  transform: translateY(-50%) rotate(150deg);
+}
+
+/* LEARN: rect 960,628 size 200x71; color #FFB454 */
+.cc-bubble[data-bubble="learn"]{
+  background:#FFB454; color:#000;
+  left: 75%; top: 69.78%;
+  width: clamp(135px, 15.63vw, 200px);
+  transform: translateX(-20%) rotate(-3deg);
+}
+.cc-bubble[data-bubble="learn"]::after{
+  left:-10px; top:45%;
+  transform: translateY(-50%) rotate(190deg);
+}
+
+/* Pull bubbles inward a bit on small screens */
+@media (max-width: 820px){
+  .cc-bubble{ opacity:.96; }
+  .cc-bubble[data-bubble="share"]{ left: 28%; top: 28%; }
+  .cc-bubble[data-bubble="explore"]{ left: 8%; top: 58%; }
+  .cc-bubble[data-bubble="empower"]{ left: 24%; top: 76%; }
+  .cc-bubble[data-bubble="code"]{ left: 88%; top: 32%; }
+  .cc-bubble[data-bubble="learn"]{ left: 72%; top: 67%; }
+}

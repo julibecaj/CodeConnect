@@ -301,3 +301,96 @@ body {
   .cc-partners { grid-template-columns: repeat(4, 1fr); }
   .cc-footer__grid { grid-template-columns: repeat(4, 1fr); }
 }
+
+
+/* --- CodeConnect Navbar --- */
+:root{
+  --cc-grad-left:#b4458a;   /* tweak to match your page gradient */
+  --cc-grad-right:#ef5246;
+  --cc-track:#000000;
+  --cc-blue:#4FC1FF;
+  --cc-text:#ffffff;
+}
+
+/* Outer gradient pill (acts like the “container”) */
+.cc-nav{
+  padding: 8px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg,var(--cc-grad-left),var(--cc-grad-right));
+  /* center and match Figma width while staying responsive */
+  max-width: 1322px; 
+  margin: 48px auto 0;   /* top ~48 like Figma; adjust if needed */
+}
+
+/* Inner black rounded bar */
+.cc-track{
+  height: 66px;
+  background: var(--cc-track);
+  border-radius: 33px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 0 16px;
+  gap: 16px;
+}
+
+/* Brand cluster */
+.cc-header__brand{ display:flex; align-items:center; gap: 10px; }
+.cc-logo{ width: 44px; height: 44px; display:grid; place-items:center; }
+.cc-brand{
+  font-family: "Chakra Petch", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 35px;      /* Figma: 35px */
+  line-height: 46px;    /* Figma: 46px */
+  color: var(--cc-text);
+}
+
+/* Right buttons */
+.cc-header__nav{ display:flex; align-items:center; gap: 12px; }
+
+.cc-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  height: 37px; padding: 0 16px;
+  border-radius: 9999px;
+  font-family: "Chakra Petch", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 20px;           /* visually close to Figma 24–26 in a smaller bar */
+  line-height: 1;
+  text-decoration:none;
+  transition: transform .06s ease, filter .18s ease;
+}
+
+/* Ghost = dark pill (Log In) */
+.cc-btn--ghost{
+  background: #2a0f0f;       /* deep maroon like your screenshot */
+  color: #fff;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
+}
+
+/* Solid = light blue (Sign Up) */
+.cc-btn--solid{
+  background: #fff;          /* white pill with blue text OR flip these two lines if you want blue fill */
+  color: #0b0b0b;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.25) inset;
+}
+
+/* Variant if you prefer blue-filled buttons (uncomment to switch) */
+/*
+.cc-btn--solid{
+  background: var(--cc-blue);
+  color: #000;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.25) inset;
+}
+*/
+
+.cc-btn:hover{ filter: brightness(1.05); }
+.cc-btn:active{ transform: translateY(1px); }
+
+/* Responsive adjustments */
+@media (max-width: 700px){
+  .cc-nav{ margin-top: 24px; }
+  .cc-track{ height: 56px; }
+  .cc-logo{ width: 38px; height: 38px; }
+  .cc-brand{ font-size: 22px; line-height: 1; }
+  .cc-btn{ height: 34px; font-size: 16px; padding: 0 12px; }
+}

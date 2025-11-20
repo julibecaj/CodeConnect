@@ -13,21 +13,23 @@
 html,
 body {
   max-width: 100vw;
+  height: 100%;
   overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Chakra Petch;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+}
+
+body {
+  margin: 0;
+  color: #fff;
+  background: #0b0b0b;
+  font-family: var(--font-chakra-petch), system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -41,18 +43,7 @@ a {
   }
 }
 
-
-
-/*testtt*\
 /* -------- Base / Layout -------- */
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  color: #fff;
-  background: #0b0b0b;
-}
 
 .cc-container {
   max-width: 1120px;

@@ -19,7 +19,7 @@ body {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Chakra Petch;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -271,7 +271,7 @@ body {
 /* -------- Footer -------- */
 .cc-footer {
   margin-top: 24px;
-  background: rgba(0,0,0,.4);
+  background: rgb(0, 0, 0);
   backdrop-filter: blur(6px);
   border-top: 1px solid rgba(255,255,255,.12);
 }

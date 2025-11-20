@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer: React.FC = () => {
   return (
@@ -8,7 +9,14 @@ const Footer: React.FC = () => {
         <div className="cc-footer__grid">
           <div>
             <div className="cc-footer__brand">
-              <div className="cc-logo cc-logo--footer">∞</div>
+              <div className="cc-logo cc-logo--footer">
+                <Image
+                  src="/assets/codeconnect_logo.svg"
+                  alt="CodeConnect Logo"
+                  width={169}
+                  height={99}
+                />
+              </div>
               <span className="cc-brand">CodeConnect</span>
             </div>
           </div>
@@ -16,27 +24,45 @@ const Footer: React.FC = () => {
           <div>
             <h5 className="cc-footer__title">The Team</h5>
             <ul className="cc-footer__list">
-              <li><Link href="#">Who we are</Link></li>
-              <li><Link href="#">The community</Link></li>
-              <li><Link href="#">What we offer</Link></li>
+              <li>
+                <Link href="#">Who we are</Link>
+              </li>
+              <li>
+                <Link href="#">The community</Link>
+              </li>
+              <li>
+                <Link href="#">What we offer</Link>
+              </li>
             </ul>
           </div>
 
           <div>
             <h5 className="cc-footer__title">Support</h5>
             <ul className="cc-footer__list">
-              <li><Link href="#">Contact us</Link></li>
-              <li><Link href="#">FAQs</Link></li>
-              <li><Link href="#">Our vision</Link></li>
+              <li>
+                <Link href="#">Contact us</Link>
+              </li>
+              <li>
+                <Link href="#">FAQs</Link>
+              </li>
+              <li>
+                <Link href="#">Our vision</Link>
+              </li>
             </ul>
           </div>
 
           <div>
             <h5 className="cc-footer__title">Socials</h5>
             <ul className="cc-footer__list">
-              <li><Link href="#">LinkedIn</Link></li>
-              <li><Link href="#">Instagram</Link></li>
-              <li><Link href="#">@codeconnect.dev</Link></li>
+              <li>
+                <Link href="#">LinkedIn</Link>
+              </li>
+              <li>
+                <Link href="#">Instagram</Link>
+              </li>
+              <li>
+                <Link href="#">@codeconnect.dev</Link>
+              </li>
             </ul>
           </div>
         </div>

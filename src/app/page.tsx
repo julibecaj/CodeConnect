@@ -1,15 +1,43 @@
+"use client";
+import TypingLoader from "../../components/TypingLoader";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import React, { useState } from "react";
+
+
 
 export default function Home() {
-  return (
-     <main className="cc-bg">
-      {/* soft blobs */}
-      <div className="cc-blob cc-blob--tl" />
-      <div className="cc-blob cc-blob--br" />
+  {/*lOADER TEST*/}
+  const [showLoader, setShowLoader] = useState(true);
 
+
+  return (
+    <main className="cc-bg">
       <div className="cc-container">
         <Header />
+
+        {/*lOADER TEST*/}
+        <>
+          {showLoader && (
+            <TypingLoader
+              text="CodeConnect"
+              typingSpeed={120}
+              pauseAfterDone={500}
+              onDone={() => setShowLoader(false)}
+            />
+          )}
+
+          <main
+            style={{
+              minHeight: "100vh",
+              opacity: showLoader ? 0 : 1,
+              transition: "opacity 0.7s ease",
+            }}
+          >
+        
+          </main>
+        </>
+
 
         {/* Hero */}
         <section className="cc-hero">

@@ -15,17 +15,19 @@ const TypingLoader: React.FC<TypingLoaderProps> = ({
   pauseAfterDone = 500,
   onDone,
 }) => {
+  const targetText = text.toUpperCase();
   const [displayedText, setDisplayedText] = useState("");
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
+    setDisplayedText("");
     let index = 0;
     let typingTimeout: NodeJS.Timeout;
     let hideTimeout: NodeJS.Timeout;
 
     const type = () => {
-      if (index < text.length) {
-        setDisplayedText((prev) => prev + text.charAt(index));
+      if (index < targetText.length) {
+        setDisplayedText((prev) => prev + targetText.charAt(index));
         index++;
         typingTimeout = setTimeout(type, typingSpeed);
       } else {
@@ -43,7 +45,7 @@ const TypingLoader: React.FC<TypingLoaderProps> = ({
       clearTimeout(typingTimeout);
       clearTimeout(hideTimeout);
     };
-  }, [text, typingSpeed, pauseAfterDone, onDone]);
+  }, [targetText, typingSpeed, pauseAfterDone, onDone]);
 
   return (
     <div
@@ -66,9 +68,8 @@ const TypingLoader: React.FC<TypingLoaderProps> = ({
           fontSize: "3rem",
           fontWeight: 600,
           color: "#ffffff",
-          letterSpacing: "0.2em",
-          fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-          textTransform: "uppercase",
+          letterSpacing: "0.12em",
+          fontFamily: "\"Chakra Petch\", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
         }}
       >
         {displayedText}

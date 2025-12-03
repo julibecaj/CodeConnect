@@ -16,6 +16,7 @@ const Header: React.FC = () => {
               alt="CodeConnect logo"
               width={44}
               height={44}
+              style={{ width: 44, height: 44, objectFit: "contain", filter: "invert(1)" }}
               priority
             />
           </div>

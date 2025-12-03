@@ -13,8 +13,10 @@ const Footer: React.FC = () => {
                 <Image
                   src="/assets/codeconnect_logo.svg"
                   alt="CodeConnect Logo"
-                  width={169}
-                  height={99}
+                  width={44}
+                  height={44}
+                  style={{ width: 44, height: 44, objectFit: "contain" }}
+                  priority
                 />
               </div>
               <span className="cc-brand">CodeConnect</span>

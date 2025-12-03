@@ -26,16 +26,6 @@ export default function Home() {
               onDone={() => setShowLoader(false)}
             />
           )}
-
-          <main
-            style={{
-              minHeight: "100vh",
-              opacity: showLoader ? 0 : 1,
-              transition: "opacity 0.7s ease",
-            }}
-          >
-        
-          </main>
         </>
 
 

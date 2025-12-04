@@ -1,40 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+🚀 CodeConnect
+Your Developer Community Platform
+<p align="center"> <img src="file:///C:/Users/User/Downloads/codeconnect_logo.svg" alt="CodeConnect Logo" width="180"/> </p> <p align="center"> <b>A modern full-stack platform where developers learn, share, and connect.</b> </p>
 
-## Getting Started
+⭐ Overview
 
-First, run the development server:
+CodeConnect is a full-stack web app designed to bring developers together through a clean, intuitive, and interactive platform. Users can share tutorials, ask coding questions, showcase projects, comment, like, and explore resources through an advanced internal + external search system.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built with a Next.js + React + TypeScript frontend and a Java Spring Boot backend, CodeConnect delivers a fast, secure, and community-driven experience.
 
 
-## CodeConnect - Developer Community Platform
-A Web Application providing a developer-focused web platform where users can post tutorials, share projects, ask questions, and interact with others. 
+
+🧰 Tech Stack
+<p align="center"> <img src="https://img.shields.io/badge/Frontend-Next.js-black?logo=next.js" /> <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB" /> <img src="https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white" /> <img src="https://img.shields.io/badge/Backend-Spring%20Boot-6DB33F?logo=springboot&logoColor=white" /> <img src="https://img.shields.io/badge/Database-MySQL-4479A1?logo=mysql&logoColor=white" /> <img src="https://img.shields.io/badge/Language-Java-blue?logo=java&logoColor=white" /> </p>
+✨ Key Highlights
+
+🧑‍💻 Developer-focused platform
+
+📝 Post tutorials, share projects, ask questions
+
+💬 Engage through comments & likes
+
+🔍 Smart internal + external search
+
+🧪 Built-in coding editor (multi-language)
+
+🔐 Secure authentication (JWT + Spring Security)
+
+⚡ Modern, responsive UI (Next.js + React)

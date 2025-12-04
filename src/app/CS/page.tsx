@@ -1,39 +1,49 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
-const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+type Status = "idle" | "loading" | "success" | "error";
 
 export default function ComingSoonPage() {
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [message, setMessage] = useState("");
 
-  const placeholder = useMemo(() => "you@example.com", []);
-
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const value = email.trim();
 
     if (!value) {
-      setError("Please enter your email.");
-      setSuccess("");
+      setStatus("error");
+      setMessage("Please enter your email.");
       return;
     }
 
-    if (!emailPattern.test(value)) {
-      setError("Enter a valid email address.");
-      setSuccess("");
-      return;
+    try {
+      setStatus("loading");
+      setMessage("");
+
+      const response = await fetch("/api/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: value }),
+      });
+
+      const data = (await response.json()) as { error?: string; success?: boolean };
+
+      if (!response.ok || !data?.success) {
+        setStatus("error");
+        setMessage(data?.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      setStatus("success");
+      setMessage("You're on the list! We'll email you when we launch.");
+      setEmail("");
+    } catch (error) {
+      console.error("Notify submit error:", error);
+      setStatus("error");
+      setMessage("Something went wrong. Please try again.");
     }
-
-    setError("");
-    setSuccess("You are on the list. We will notify you soon.");
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    if (error) setError("");
-    if (success) setSuccess("");
   };
 
   return (
@@ -52,20 +62,33 @@ export default function ComingSoonPage() {
               id="email"
               name="email"
               type="email"
-              inputMode="email"
-              placeholder={placeholder}
+              required
               value={email}
-              onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
               className="cs2-input"
-              aria-invalid={Boolean(error)}
+              aria-invalid={status === "error"}
               aria-describedby="form-status"
             />
-            <button type="submit" className="cs2-button">Notify Me</button>
+            <button type="submit" className="cs2-button" disabled={status === "loading"}>
+              {status === "loading" ? "Sending..." : "Notify Me"}
+            </button>
           </form>
 
           <div id="form-status" className="cs2-status">
-            {error && <p className="cs2-message cs2-message--error">{error}</p>}
-            {success && <p className="cs2-message cs2-message--success">{success}</p>}
+            {message && (
+              <p
+                className={`cs2-message ${
+                  status === "success"
+                    ? "cs2-message--success"
+                    : status === "error"
+                      ? "cs2-message--error"
+                      : ""
+                }`}
+              >
+                {message}
+              </p>
+            )}
           </div>
         </section>
 

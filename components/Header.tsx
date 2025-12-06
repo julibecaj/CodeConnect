@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Image from "next/image";
 
+
 const Header: React.FC = () => {
   return (
     // Outer gradient pill
@@ -12,11 +13,11 @@ const Header: React.FC = () => {
         <div className="cc-header__brand">
           <div className="cc-logo">
             <Image
-              src="/assets/cc_logo2.svg"
+              src="/assets/codeconnect_logo.svg"
               alt="CodeConnect logo"
               width={44}
               height={44}
-              style={{ width: 44, height: 44, objectFit: "contain", filter: "invert(1)" }}
+              style={{ width: 44, height: 44, objectFit: "contain" }}
               priority
             />
           </div>

@@ -2,6 +2,9 @@
 Your Developer Community Platform
 <p align="center"> <img src="file:///C:/Users/User/Downloads/codeconnect_logo.svg" alt="CodeConnect Logo" width="180"/> </p> <p align="center"> <b>A modern full-stack platform where developers learn, share, and connect.</b> </p>
 
+<img width="169" height="99" alt="image" src="https://github.com/user-attachments/assets/b15459c8-cb92-44ce-b1ca-bfffd791956e" />
+
+
 ⭐ Overview
 
 CodeConnect is a full-stack web app designed to bring developers together through a clean, intuitive, and interactive platform. Users can share tutorials, ask coding questions, showcase projects, comment, like, and explore resources through an advanced internal + external search system.

@@ -808,9 +808,33 @@ a {
 }
 
 @media (max-width: 720px) {
-  .cs2-card { grid-template-columns: 1fr; }
-  .cs2-right { order: 2; }
-  .cs2-left { order: 1; }
-  .cs2-form { flex-direction: column; }
-  .cs2-button { width: 100%; justify-content: center; }
+  .cs2-bg {
+    align-items: start;
+    min-height: auto;
+    padding: 20px 12px 32px;
+  }
+  .cs2-card {
+    grid-template-columns: 1fr;
+    width: 100%;
+    border-radius: 22px;
+    box-shadow: 0 20px 40px rgba(0,0,0,.5);
+  }
+  .cs2-left {
+    order: 1;
+    padding: 18px 14px 14px;
+    gap: 10px;
+  }
+  .cs2-right {
+    order: 2;
+    padding: 14px;
+  }
+  .cs2-title {
+    font-size: clamp(32px, 9vw, 54px);
+    line-height: 1.04;
+  }
+  .cs2-subtitle { font-size: clamp(15px, 4vw, 18px); }
+  .cs2-form { flex-direction: row; flex-wrap: wrap; gap: 10px; }
+  .cs2-input { flex: 1 1 260px; width: auto; }
+  .cs2-button { width: auto; min-width: 150px; justify-content: center; }
+  .cs2-scene { max-width: 360px; }
 }

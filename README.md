@@ -30,3 +30,6 @@ Built with a Next.js + React + TypeScript frontend and a Java Spring Boot backen
 🔐 Secure authentication (JWT + Spring Security)
 
 ⚡ Modern, responsive UI (Next.js + React)
+
+#Sign Up now to get notified when the platform launches!
+https://code-connect-ten-puce.vercel.app/

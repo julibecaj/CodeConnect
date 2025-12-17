@@ -21,7 +21,7 @@ const Header: React.FC = () => {
               priority
             />
           </div>
-          <span className="cc-brand">CodeConnect</span>
+          <span className="cc-brand" >CodeConnect</span>
         </div>
 
         <nav className="cc-header__nav">

@@ -1,49 +1,53 @@
 "use client";
-import TypingLoader from "../../components/TypingLoader";
-import Header from "../../components/Header";
+import { useState } from "react";
 import Footer from "../../components/Footer";
-import React, { useState } from "react";
-
-
+import GalaxyBackground from "../../components/GalaxyBackground";
+import Header from "../../components/Header";
+import TypingLoader from "../../components/TypingLoader";
 
 export default function Home() {
-  {/*lOADER TEST*/}
   const [showLoader, setShowLoader] = useState(true);
 
-
   return (
-    <main className="cc-bg">
+    <main className="cc-landing">
+      <GalaxyBackground
+        className="cc-galaxy"
+        focal={[0.5, 0.52]}
+        density={1}
+        hueShift={160}
+        glowIntensity={0.35}
+        saturation={0.25}
+        twinkleIntensity={0.45}
+        rotationSpeed={0.08}
+        autoCenterRepulsion={0.25}
+        repulsionStrength={2}
+      />
+
       <div className="cc-container">
         <Header />
 
-        {/*lOADER TEST*/}
-        <>
-          {showLoader && (
-            <TypingLoader
-              text="CodeConnect"
-              typingSpeed={120}
-              pauseAfterDone={500}
-              onDone={() => setShowLoader(false)}
-            />
-          )}
-        </>
-
+        {showLoader && (
+          <TypingLoader
+            text="CodeConnect"
+            typingSpeed={120}
+            pauseAfterDone={500}
+            onDone={() => setShowLoader(false)}
+          />
+        )}
 
         {/* Hero */}
         <section className="cc-hero">
-          {/* five bubbles — keep text same; data-bubble lets us position them */}
-            <span className="cc-bubble" data-bubble="share">Share</span>
-            <span className="cc-bubble" data-bubble="explore">Explore</span>
-            <span className="cc-bubble" data-bubble="empower">Empower</span>
-            <span className="cc-bubble" data-bubble="code">Code</span>
-            <span className="cc-bubble" data-bubble="learn">Learn</span>
+          <span className="cc-bubble" data-bubble="share">Share</span>
+          <span className="cc-bubble" data-bubble="explore">Explore</span>
+          <span className="cc-bubble" data-bubble="empower">Empower</span>
+          <span className="cc-bubble" data-bubble="code">Code</span>
+          <span className="cc-bubble" data-bubble="learn">Learn</span>
 
-            <div className="cc-hero__center">
-              <h1 className="cc-hero__title">CodeConnect</h1>
-              <p className="cc-hero__tag">Build by Coders, for Coders.</p>
-            </div>
+          <div className="cc-hero__center">
+            <h1 className="cc-hero__title">CodeConnect</h1>
+            <p className="cc-hero__tag">Build by Coders, for Coders.</p>
+          </div>
         </section>
-
 
         {/* Offer */}
         <h3 className="cc-section-title">What we offer to you?</h3>
@@ -115,10 +119,9 @@ export default function Home() {
           </a>
           <p className="cc-cta__sub">Be part of the most incredible community!</p>
         </section>
-      </div>
 
-      <Footer />
-      
+        <Footer />
+      </div>
     </main>
   );
 }

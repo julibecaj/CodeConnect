@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
+import LoginForm from "../../../components/LoginForm";
 
 export const metadata: Metadata = {
   title: "Log In | CodeConnect",
@@ -23,52 +24,7 @@ export default function LoginPage() {
             <p className="cc-auth__lead">
               Log in to pick up where you left off, collaborate with peers, and keep shipping.
             </p>
-
-            <form>
-              <div className="cc-field">
-                <label htmlFor="email">Email</label>
-                <input
-                  className="cc-input"
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                />
-              </div>
-
-              <div className="cc-field">
-                <label htmlFor="password">Password</label>
-                <input
-                  className="cc-input"
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                />
-              </div>
-
-              <div className="cc-auth__actions">
-                <label>
-                  <input type="checkbox" name="remember" /> Remember me
-                </label>
-                <Link className="cc-auth__link" href="#reset">
-                  Forgot password?
-                </Link>
-              </div>
-
-              <button className="cc-btn cc-btn--solid cc-auth__submit" type="submit">
-                Log In
-              </button>
-            </form>
-
-            <p className="cc-auth__hint">
-              New to CodeConnect?{" "}
-              <Link className="cc-auth__link" href="/signup">
-                Create an account
-              </Link>
-            </p>
+            <LoginForm />
           </div>
 
           <div className="cc-auth__card">

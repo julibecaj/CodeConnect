@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Footer from "../../components/Footer";
-import GalaxyBackground from "../../components/GalaxyBackground";
 import Header from "../../components/Header";
 import TypingLoader from "../../components/TypingLoader";
 
@@ -10,19 +9,6 @@ export default function Home() {
 
   return (
     <main className="cc-landing">
-      <GalaxyBackground
-        className="cc-galaxy"
-        focal={[0.5, 0.52]}
-        density={1}
-        hueShift={160}
-        glowIntensity={0.35}
-        saturation={0.25}
-        twinkleIntensity={0.45}
-        rotationSpeed={0.08}
-        autoCenterRepulsion={0.25}
-        repulsionStrength={2}
-      />
-
       <div className="cc-container">
         <Header />
 

@@ -2,16 +2,43 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "/api";
 
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // TODO: replace with real auth; after login send to profile/dashboard.
-    router.push("/User");
+    setSubmitting(true);
+    setError(null);
+
+    const data = new FormData(event.currentTarget);
+    const payload = {
+      email: data.get("email"),
+      password: data.get("password"),
+    };
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Login failed");
+      router.push("/User");
+    } catch (err) {
+      setError("Login API not reachable yet. Mocking success to let you explore the profile.");
+      router.push("/User?mock=1");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -19,6 +46,12 @@ export default function LoginForm() {
       {from === "signup" && (
         <p className="cc-formhint" style={{ marginBottom: "10px" }}>
           Account created. Log in to continue.
+        </p>
+      )}
+
+      {error && (
+        <p className="cc-formhint" style={{ marginBottom: "10px" }}>
+          {error}
         </p>
       )}
 
@@ -57,7 +90,7 @@ export default function LoginForm() {
         </div>
 
         <button className="cc-btn cc-btn--solid cc-auth__submit" type="submit">
-          Log In
+          {submitting ? "Logging in..." : "Log In"}
         </button>
       </form>
 

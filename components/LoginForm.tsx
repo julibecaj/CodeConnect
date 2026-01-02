@@ -34,8 +34,7 @@ export default function LoginForm() {
       if (!res.ok) throw new Error("Login failed");
       router.push("/User");
     } catch (err) {
-      setError("Login API not reachable yet. Mocking success to let you explore the profile.");
-      router.push("/User?mock=1");
+      setError("Login failed. Please try again.");
     } finally {
       setSubmitting(false);
     }

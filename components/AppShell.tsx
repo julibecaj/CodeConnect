@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
@@ -33,11 +34,13 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
 
   return (
     <div className="cc-shell">
-      <header className="cc-shell__topbar">
-        <div className="cc-shell__brand">
-          <div className="cc-shell__logo">CC</div>
+      <header className="cc-shell__topbar" style={{ position: "sticky", top: 0, zIndex: 30 }}>
+        <div className="cc-shell__brand" role="banner">
+          <div className="cc-shell__logo cc-shell__logo--badge">
+            <Image src="/assets/cc_logo2.svg" width={32} height={32} alt="CC monogram" />
+          </div>
           <div className="cc-shell__brand-text">
-            <span>CodeConnect</span>
+            <Image src="/assets/codeconnect_logo.svg" width={142} height={32} alt="CodeConnect" priority />
             <small>Creator Console</small>
           </div>
         </div>

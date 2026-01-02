@@ -15,6 +15,7 @@ type UserProfile = {
   projects: number;
   links: { label: string; href: string }[];
   status: string;
+  avatarUrl?: string;
 };
 
 type Post = {
@@ -35,13 +36,18 @@ type Project = {
   id: string;
   title: string;
   stack: string;
-  status: "Draft" | "Published";
+  status: "Draft" | "Published" | "In review";
   likes: number;
   saves: number;
   tags: string[];
+  cover?: string;
   isLiked?: boolean;
   isSaved?: boolean;
 };
+
+type FeedItem =
+  | ({ kind: "post" } & Post)
+  | ({ kind: "project" } & Project);
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "/api";
 
@@ -59,6 +65,7 @@ const fallbackProfile: UserProfile = {
     { label: "GitHub", href: "#" },
     { label: "LinkedIn", href: "#" },
   ],
+  avatarUrl: "/assets/cc_logo2.svg",
 };
 
 const fallbackPosts: Post[] = [
@@ -71,6 +78,7 @@ const fallbackPosts: Post[] = [
     likes: 118,
     saves: 34,
     tags: ["Spring Boot", "WebSocket", "Realtime"],
+    cover: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "post-2",
@@ -81,6 +89,7 @@ const fallbackPosts: Post[] = [
     likes: 94,
     saves: 22,
     tags: ["Monorepo", "CI/CD", "DX"],
+    cover: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
@@ -93,15 +102,17 @@ const fallbackProjects: Project[] = [
     likes: 76,
     saves: 19,
     tags: ["UI", "Design System"],
+    cover: "https://images.unsplash.com/photo-1551033541-2075d8363c2d?q=80&w=1200&auto=format&fit=crop",
   },
   {
     id: "proj-2",
     title: "Docs automation",
     stack: "MDX + CI",
-    status: "Draft",
+    status: "In review",
     likes: 32,
     saves: 12,
     tags: ["Automation", "Docs"],
+    cover: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
@@ -117,6 +128,7 @@ export default function User() {
   const [draftBody, setDraftBody] = useState("");
   const [draftTags, setDraftTags] = useState("");
   const [draftImage, setDraftImage] = useState<File | null>(null);
+  const [draftAttachments, setDraftAttachments] = useState<File[]>([]);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
@@ -144,7 +156,7 @@ export default function User() {
           if (isMounted) setProjects(data);
         }
       } catch (err) {
-        if (isMounted) setError("Unable to load profile data yet. Using preview content.");
+        if (isMounted) setError("Could not refresh your data. Showing the latest available view.");
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -158,18 +170,30 @@ export default function User() {
 
   const stats = useMemo(
     () => [
-      { label: "Followers", value: profile.followers, desc: "Community members" },
-      { label: "Posts", value: profile.posts ?? posts.length, desc: "Tutorials & write-ups" },
+      { label: "Followers / friends", value: profile.followers, desc: "People connected to you" },
+      { label: "Posts", value: profile.posts ?? posts.length, desc: "Tutorials & updates" },
       { label: "Projects", value: profile.projects ?? projects.length, desc: "Shipped builds" },
     ],
     [profile.followers, profile.posts, profile.projects, posts.length, projects.length],
   );
+
+  const savedPosts = useMemo(
+    () => posts.filter((post) => post.isSaved || post.isLiked),
+    [posts],
+  );
+
+  const feedItems: FeedItem[] = useMemo(() => {
+    const postItems: FeedItem[] = posts.map((post) => ({ ...post, kind: "post" }));
+    const projectItems: FeedItem[] = projects.map((proj) => ({ ...proj, kind: "project" }));
+    return [...postItems, ...projectItems];
+  }, [posts, projects]);
 
   const resetDraft = () => {
     setDraftTitle("");
     setDraftBody("");
     setDraftTags("");
     setDraftImage(null);
+    setDraftAttachments([]);
   };
 
   const handlePublish = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -199,10 +223,11 @@ export default function User() {
       formData.append("body", draftBody);
       formData.append("tags", newPost.tags.join(","));
       if (draftImage) formData.append("image", draftImage);
+      draftAttachments.forEach((file) => formData.append("attachments", file));
 
       await fetch(`${API_BASE}/posts`, { method: "POST", body: formData });
     } catch (err) {
-      setError("Saved locally. Connect the Spring Boot POST /posts endpoint to persist.");
+      setError("Unable to publish right now. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -273,7 +298,7 @@ export default function User() {
       } else {
         await navigator.clipboard.writeText(url);
       }
-      setShareMessage("Link copied. Ready to share in or outside the platform.");
+      setShareMessage("Link copied. Ready to share on or off the platform.");
       setTimeout(() => setShareMessage(null), 3000);
     } catch (err) {
       setShareMessage("Unable to share right now. Try copying manually.");
@@ -399,6 +424,116 @@ export default function User() {
     );
   };
 
+  const renderSaved = () => {
+    if (!savedPosts.length) {
+      return (
+        <EmptyState
+          title="Nothing saved yet"
+          description="Save or like posts to collect them here."
+          action={<button className="cc-pillbtn cc-pillbtn--primary" type="button">Browse posts</button>}
+        />
+      );
+    }
+
+    return (
+      <ul className="cc-list">
+        {savedPosts.map((post) => (
+          <li key={post.id} className="cc-list__item cc-list__item--stack">
+            <div className="cc-list__meta">
+              <span className="cc-list__title">{post.title}</span>
+              <span className="cc-list__sub">{post.date} · {post.reads}</span>
+              <p className="cc-section__desc">{post.excerpt}</p>
+            </div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button
+                className="cc-pillbtn cc-pillbtn--ghost"
+                type="button"
+                onClick={() => toggleSave(post.id, "post")}
+              >
+                {post.isSaved ? "Saved" : "Save"} · {post.saves}
+              </button>
+              <Link className="cc-auth__link" href={`/posts/${post.id}`}>Open</Link>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const renderFeed = () => {
+    if (!feedItems.length) {
+      return (
+        <EmptyState
+          title="Your feed is quiet"
+          description="Publish a post or project to start the conversation."
+          action={<button className="cc-pillbtn cc-pillbtn--primary" type="button">Create a post</button>}
+        />
+      );
+    }
+
+    return (
+      <div className="cc-grid cc-grid--two">
+        {feedItems.map((item) => (
+          <Card
+            key={`${item.kind}-${item.id}`}
+            title={item.title}
+            action={
+              item.kind === "project" ? (
+                <span className="cc-tag">
+                  <span className="cc-dot" />
+                  {item.status}
+                </span>
+              ) : null
+            }
+          >
+            {item.cover && (
+              <div className="cc-cover">
+                <img src={item.cover} alt={item.title} style={{ width: "100%", borderRadius: 12 }} />
+              </div>
+            )}
+            <p className="cc-section__desc">
+              {item.kind === "post" ? item.excerpt : item.stack}
+            </p>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+              {item.tags.map((tag) => (
+                <span key={tag} className="cc-tag">
+                  <span className="cc-dot" />
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <button
+                className="cc-pillbtn cc-pillbtn--ghost"
+                type="button"
+                onClick={() => toggleLike(item.id, item.kind)}
+              >
+                {item.isLiked ? "Liked" : "Like"} · {item.likes}
+              </button>
+              <button
+                className="cc-pillbtn cc-pillbtn--ghost"
+                type="button"
+                onClick={() => toggleSave(item.id, item.kind)}
+              >
+                {item.isSaved ? "Saved" : "Save"} · {item.saves}
+              </button>
+              <button
+                className="cc-pillbtn"
+                type="button"
+                onClick={() => handleShare(item.title, `/${item.kind === "post" ? "posts" : "projects"}/${item.id}`)}
+              >
+                Share
+              </button>
+              <Link className="cc-auth__link" href={`/${item.kind === "post" ? "posts" : "projects"}/${item.id}`}>
+                Open
+              </Link>
+            </div>
+          </Card>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <AppShell
       title="Your profile"
@@ -412,7 +547,7 @@ export default function User() {
     >
       <Card>
         <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
-          <Avatar name={profile.name} size={72} />
+          <Avatar name={profile.name} size={72} src={profile.avatarUrl} />
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <h2 className="cc-section__title" style={{ fontSize: 22 }}>
               {profile.name}
@@ -496,7 +631,25 @@ export default function User() {
                 accept="image/*"
                 onChange={(e) => setDraftImage(e.target.files?.[0] ?? null)}
               />
-              <p className="cc-section__desc">Images are sent to the backend for storage. Connect to your Spring Boot upload endpoint.</p>
+            </div>
+            <div className="cc-field">
+              <label htmlFor="attachments">Attach files</label>
+              <input
+                className="cc-input"
+                id="attachments"
+                name="attachments"
+                type="file"
+                multiple
+                accept="image/*,.pdf,.zip,.doc,.docx,.txt"
+                onChange={(e) => setDraftAttachments(Array.from(e.target.files ?? []))}
+              />
+              {draftAttachments.length > 0 && (
+                <p className="cc-section__desc">
+                  {draftAttachments.length} file(s) selected:{" "}
+                  {draftAttachments.map((file) => file.name).join(", ")}
+                </p>
+              )}
+              <p className="cc-section__desc">Images and files are sent to your backend for storage and sharing.</p>
             </div>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
               <button className="cc-pillbtn cc-pillbtn--primary" type="submit" disabled={submitting}>
@@ -508,6 +661,10 @@ export default function User() {
             </div>
           </form>
         </Card>
+      </Section>
+
+      <Section title="Feed">
+        {renderFeed()}
       </Section>
 
       <Section title="Content">
@@ -522,6 +679,11 @@ export default function User() {
               id: "projects",
               label: "Projects",
               content: <Card>{renderProjects()}</Card>,
+            },
+            {
+              id: "saved",
+              label: "Saved",
+              content: <Card>{renderSaved()}</Card>,
             },
             {
               id: "about",

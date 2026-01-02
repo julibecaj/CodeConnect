@@ -11,6 +11,19 @@ export default function SettingsPage() {
         <Card>
           <div className="cc-formgrid cc-formgrid--two">
             <div className="cc-field">
+              <label htmlFor="avatar">Profile photo</label>
+              <input id="avatar" name="avatar" className="cc-input" type="file" accept="image/*" />
+              <p className="cc-formhint">Upload a square image. We will send it to your Spring Boot media endpoint.</p>
+            </div>
+            <div className="cc-field">
+              <label htmlFor="visibility">Visibility</label>
+              <select id="visibility" name="visibility" className="cc-input" defaultValue="public">
+                <option value="public">Public profile</option>
+                <option value="private">Private profile</option>
+              </select>
+              <p className="cc-formhint">Public profiles are discoverable and followable. Private keeps content to your connections.</p>
+            </div>
+            <div className="cc-field">
               <label htmlFor="name">Name</label>
               <input id="name" className="cc-input" placeholder="Your name" />
             </div>
@@ -21,7 +34,15 @@ export default function SettingsPage() {
             <div className="cc-field" style={{ gridColumn: "1 / -1" }}>
               <label htmlFor="bio">Bio</label>
               <textarea id="bio" className="cc-input" rows={3} placeholder="Tell the community about yourself" />
-              <p className="cc-formhint">Keep it concise and highlight what you’re building or looking for.</p>
+              <p className="cc-formhint">Keep it concise and highlight what you are building or looking for.</p>
+            </div>
+            <div className="cc-field" style={{ gridColumn: "1 / -1" }}>
+              <label>Profile stats</label>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <span className="cc-tag"><span className="cc-dot" />Posts: 12</span>
+                <span className="cc-tag"><span className="cc-dot" />Projects: 6</span>
+                <span className="cc-tag"><span className="cc-dot" />Followers/Friends: 248</span>
+              </div>
             </div>
             <div className="cc-field">
               <label htmlFor="website">Website</label>

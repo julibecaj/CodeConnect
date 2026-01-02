@@ -97,9 +97,10 @@ export function EmptyState({ title, description, action }: EmptyStateProps) {
 type AvatarProps = {
   name: string;
   size?: number;
+  src?: string;
 };
 
-export function Avatar({ name, size = 48 }: AvatarProps) {
+export function Avatar({ name, size = 48, src }: AvatarProps) {
   const initials = name
     .split(" ")
     .filter(Boolean)
@@ -109,7 +110,7 @@ export function Avatar({ name, size = 48 }: AvatarProps) {
 
   return (
     <div className="cc-avatar" style={{ width: size, height: size, fontSize: size / 2.6 }}>
-      {initials || "?"}
+      {src ? <img src={src} alt={name} style={{ width: "100%", height: "100%", borderRadius: "50%" }} /> : initials || "?"}
     </div>
   );
 }

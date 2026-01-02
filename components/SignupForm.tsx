@@ -33,8 +33,7 @@ export default function SignupForm() {
       if (!res.ok) throw new Error("Signup failed");
       router.push("/login?from=signup");
     } catch (err) {
-      setError("Signup API not reachable yet. Mocking success so you can continue.");
-      router.push("/login?from=signup&mock=1");
+      setError("Signup failed. Please try again.");
     } finally {
       setSubmitting(false);
     }

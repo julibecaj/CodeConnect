@@ -1,160 +1,175 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AppShell from "../../../components/AppShell";
+//import { AuthGuard } from "../../../components/auth/AuthGuard";
 import { Card, EmptyState, Section } from "../../../components/ui";
-
-const feed = [
-  {
-    id: "post-1",
-    type: "post",
-    title: "Scaling a real-time presence API on the edge",
-    author: "Jules Verne",
-    time: "2h ago",
-    tags: ["Edge", "Realtime", "Next.js"],
-    excerpt: "How we debounced broadcasts and cut tail latency by 40ms at the edge.",
-    likes: 186,
-    comments: 42,
-  },
-  {
-    id: "post-2",
-    type: "post",
-    title: "Building a VS Code-like editor in the browser",
-    author: "Ada Lovelace",
-    time: "6h ago",
-    tags: ["DX", "Monaco", "TypeScript"],
-    excerpt: "Snippets, diagnostics, and multiplayer cursors without tanking FPS.",
-    likes: 142,
-    comments: 33,
-  },
-  {
-    id: "post-3",
-    type: "project",
-    title: "Collaborative whiteboard",
-    author: "Lea Kim",
-    time: "9h ago",
-    tags: ["WebRTC", "Canvas", "Sync"],
-    excerpt: "Low-latency ink sync with CRDTs and serverless signaling.",
-    likes: 221,
-    comments: 64,
-  },
-  {
-    id: "post-4",
-    type: "post",
-    title: "Prompt-chaining patterns for AI coding assistants",
-    author: "Lin Zhao",
-    time: "1d ago",
-    tags: ["AI", "LLM", "Patterns"],
-    excerpt: "10 composable prompt chains with evals and safety rails.",
-    likes: 199,
-    comments: 51,
-  },
-];
-
-const latestProjects = [
-  { title: "Open Design Tokens", owner: "Devon", stack: "TS · Figma API", status: "Featured" },
-  { title: "Serverless Q&A", owner: "Priya", stack: "Next.js · RAG", status: "New" },
-  { title: "Collaborative whiteboard", owner: "Lea", stack: "React · WebRTC", status: "Updated" },
-  { title: "CI Insights", owner: "Mo", stack: "Node · GitHub Apps", status: "Trending" },
-];
-
-const topCreators = [
-  { name: "Alex Developer", stats: "12 posts · 6 projects" },
-  { name: "Samira Ali", stats: "9 posts · 4 projects" },
-  { name: "Kenji Tan", stats: "7 posts · 5 projects" },
-];
+import { Button } from "../../components/ui/Button";
+import { Spinner } from "../../components/ui/Spinner";
+import { useToast } from "../../hooks/useToast";
+import { api } from "../../lib/api";
+import type { Post } from "../../lib/types";
 
 export default function MainPage() {
-  return (
-    <AppShell
-      title="Discover"
-      subtitle="Explore what the community is shipping—projects, posts, discussions."
-      action={
-        <div className="cc-shell__actions">
-          <Link className="cc-pillbtn" href="/User">Your profile</Link>
-          <Link className="cc-pillbtn cc-pillbtn--primary" href="/Projects">Share a project</Link>
-        </div>
+  const { addToast } = useToast();
+  const [feed, setFeed] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await api.getPosts();
+        const items = Array.isArray(data) ? data : data.items || [];
+        if (active) setFeed(items);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "Unable to load feed.";
+        setError(message);
+        addToast({ type: "error", message });
+      } finally {
+        if (active) setLoading(false);
       }
-    >
-      <AdvancedSearch />
+    }
+    load();
+    return () => {
+      active = false;
+    };
+  }, [addToast]);
 
-      <Section title="Community feed" description="A mix of posts and projects from people you follow.">
-        <div className="cc-feed">
-          {feed.map((item) => (
-            <Card
-              key={item.id}
-              title={item.title}
-              action={<span className="cc-tag"><span className="cc-dot" />{item.time}</span>}
-            >
-              <div className="cc-feed__meta">
-                <span className="cc-feed__author">{item.author}</span>
-                <span className="cc-tag">{item.type === "project" ? "Project" : "Post"}</span>
-              </div>
-              <p className="cc-section__desc">{item.excerpt}</p>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {item.tags.map((tag) => (
-                  <span key={tag} className="cc-tag">{tag}</span>
-                ))}
-              </div>
-              <div className="cc-feed__actions">
-                <Link className="cc-pillbtn" href="#">Open</Link>
-                <Link className="cc-pillbtn" href="#">Discuss</Link>
-                <div className="cc-feed__stats">
-                  <span>❤️ {item.likes}</span>
-                  <span>💬 {item.comments}</span>
-                </div>
-              </div>
-            </Card>
-          ))}
+  const filteredFeed = useMemo(() => feed, [feed]);
+
+  const toggleLike = async (id: string) => {
+    setFeed((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, isLiked: !item.isLiked, likes: item.likes + (item.isLiked ? -1 : 1) }
+          : item,
+      ),
+    );
+    try {
+      await api.likePost(id);
+    } catch (err) {
+      setFeed((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? { ...item, isLiked: !item.isLiked, likes: item.likes + (item.isLiked ? -1 : 1) }
+            : item,
+        ),
+      );
+      addToast({ type: "error", message: "Could not update like. Try again." });
+    }
+  };
+
+  const toggleSave = async (id: string) => {
+    setFeed((prev) =>
+      prev.map((item) =>
+        item.id === id
+          ? { ...item, isSaved: !item.isSaved, saves: item.saves + (item.isSaved ? -1 : 1) }
+          : item,
+      ),
+    );
+    try {
+      await api.savePost(id);
+    } catch (err) {
+      setFeed((prev) =>
+        prev.map((item) =>
+          item.id === id
+            ? { ...item, isSaved: !item.isSaved, saves: item.saves + (item.isSaved ? -1 : 1) }
+            : item,
+        ),
+      );
+      addToast({ type: "error", message: "Could not update save. Try again." });
+    }
+  };
+
+  const renderFeed = () => {
+    if (loading) {
+      return (
+        <div style={{ display: "grid", placeItems: "center", minHeight: 180 }}>
+          <Spinner size={28} />
+          <p className="cc-formhint">Loading the latest posts...</p>
         </div>
-      </Section>
+      );
+    }
 
-      <Section title="Latest projects" description="See what others are shipping right now.">
-        <div className="cc-grid cc-grid--three">
-          {latestProjects.map((proj) => (
-            <Card
-              key={proj.title}
-              title={proj.title}
-              action={<span className="cc-tag"><span className="cc-dot" />{proj.status}</span>}
-            >
-              <p className="cc-section__desc">{proj.stack}</p>
-              <p className="cc-list__sub">by {proj.owner}</p>
-              <div style={{ display: "flex", gap: 8 }}>
-                <Link className="cc-pillbtn" href="#">View</Link>
-                <Link className="cc-pillbtn" href="#">Save</Link>
+    if (error) {
+      return (
+        <EmptyState
+          title="Feed unavailable"
+          description={error}
+          action={<Button onClick={() => window.location.reload()}>Retry</Button>}
+        />
+      );
+    }
+
+    if (!filteredFeed.length) {
+      return (
+        <EmptyState
+          title="No posts yet"
+          description="When content is published, it will appear here."
+          action={<Link className="cc-pillbtn cc-pillbtn--primary" href="/Projects">Share a project</Link>}
+        />
+      );
+    }
+
+    return (
+      <div className="cc-feed">
+        {filteredFeed.map((item) => (
+          <Card
+            key={item.id}
+            title={item.title}
+            action={<span className="cc-tag"><span className="cc-dot" />{item.createdAt ?? "Just now"}</span>}
+          >
+            <div className="cc-feed__meta">
+              <span className="cc-feed__author">{item.author?.name ?? "Unknown"}</span>
+              <span className="cc-tag">Post</span>
+            </div>
+            <p className="cc-section__desc">{item.excerpt || item.content}</p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {item.tags.map((tag) => (
+                <span key={tag} className="cc-tag">{tag}</span>
+              ))}
+            </div>
+            <div className="cc-feed__actions">
+              <Link className="cc-pillbtn" href={`/posts/${item.id}`}>Open</Link>
+              <div className="cc-feed__stats" style={{ display: "flex", gap: 8 }}>
+                <Button variant="ghost" onClick={() => toggleLike(item.id)}>
+                  {item.isLiked ? "Liked" : "Like"} • {item.likes}
+                </Button>
+                <Button variant="ghost" onClick={() => toggleSave(item.id)}>
+                  {item.isSaved ? "Saved" : "Save"} • {item.saves}
+                </Button>
               </div>
-            </Card>
-          ))}
-        </div>
-      </Section>
+            </div>
+          </Card>
+        ))}
+      </div>
+    );
+  };
 
-      <Section title="Top creators" description="Follow creators to tune your feed.">
-        <Card>
-          <ul className="cc-list">
-            {topCreators.map((creator) => (
-              <li key={creator.name} className="cc-list__item">
-                <div className="cc-list__meta">
-                  <span className="cc-list__title">{creator.name}</span>
-                  <span className="cc-list__sub">{creator.stats}</span>
-                </div>
-                <Link className="cc-pillbtn" href="#">Follow</Link>
-              </li>
-            ))}
-          </ul>
-        </Card>
-      </Section>
+  return (
+    <AuthGuard>
+      <AppShell
+        title="Discover"
+        subtitle="Explore what the community is shipping—projects and posts."
+        action={
+          <div className="cc-shell__actions">
+            <Link className="cc-pillbtn" href="/User">Your profile</Link>
+            <Link className="cc-pillbtn cc-pillbtn--primary" href="/Projects">Share a project</Link>
+          </div>
+        }
+      >
+        <AdvancedSearch />
 
-      <Section title="Discussions">
-        <Card>
-          <EmptyState
-            title="No new threads"
-            description="Start a question or join a thread to get feedback."
-            action={<Link className="cc-pillbtn cc-pillbtn--primary" href="#">Start a discussion</Link>}
-          />
-        </Card>
-      </Section>
-    </AppShell>
+        <Section title="Community feed" description="A mix of posts and projects from people you follow.">
+          {renderFeed()}
+        </Section>
+      </AppShell>
+    </AuthGuard>
   );
 }
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
-import LoginForm from "../../../components/LoginForm";
+import { LoginForm } from "../../components/forms/LoginForm";
 
 export const metadata: Metadata = {
   title: "Log In | CodeConnect",

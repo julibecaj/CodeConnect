@@ -960,5 +960,10 @@ a {
 .cc-advsearch__row label { font-weight: 700; color: rgba(255,255,255,.8); }
 .cc-advsearch__chips { display: flex; flex-wrap: wrap; gap: 8px; }
 
+@keyframes cc-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 
 

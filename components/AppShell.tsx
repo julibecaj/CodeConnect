@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
+import { useAuth } from "../src/hooks/useAuth";
+import { useToast } from "../src/hooks/useToast";
 
 type AppShellProps = {
   title: string;
@@ -22,6 +24,8 @@ const navItems = [
 export default function AppShell({ title, subtitle, action, children }: AppShellProps) {
   const pathname = usePathname();
   const [searchOpen, setSearchOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const { addToast } = useToast();
 
   const filters = useMemo(
     () => ({
@@ -68,6 +72,19 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
             onClick={() => setSearchOpen((v) => !v)}
           >
             Advanced Search
+          </button>
+          <button
+            className="cc-pillbtn"
+            type="button"
+            onClick={async () => {
+              try {
+                await logout();
+              } catch (err) {
+                addToast({ type: "error", message: "Logout failed. Please try again." });
+              }
+            }}
+          >
+            Logout
           </button>
           <div className="cc-shell__footer cc-shell__footer--top">
             <span className="cc-shell__badge">Beta</span>

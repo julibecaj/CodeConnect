@@ -24,12 +24,12 @@ export async function POST(request: NextRequest) {
     });
 
     const fromName = process.env.RESEND_FROM_NAME || "CodeConnect";
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "no-reply@send.codeconnect.space";
 
     await resend.emails.send({
       from: `${fromName} <${fromEmail}>`,
       to: email,
-      subject: "You're on the CodeConnect waitlist \\u{1F389}",
+      subject: "You're on the CodeConnect waitlist",
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.5; color: #0f172a;">
           <h2 style="margin: 0 0 12px;">Thanks for signing up!</h2>

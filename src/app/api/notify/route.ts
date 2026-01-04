@@ -1,3 +1,5 @@
+//resend.com
+
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
@@ -24,7 +26,7 @@ export async function POST(request: NextRequest) {
     });
 
     const fromName = process.env.RESEND_FROM_NAME || "CodeConnect";
-    const fromEmail = process.env.RESEND_FROM_EMAIL || "no-reply@send.codeconnect.space";
+    const fromEmail = process.env.RESEND_FROM_EMAIL || "no-reply@codeconnect.space";
 
     await resend.emails.send({
       from: `${fromName} <${fromEmail}>`,

@@ -13,8 +13,9 @@ export function AuthGuard({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
 
   const next = useMemo(() => {
+    const base = pathname || "/";
     const query = searchParams.toString();
-    return query ? `${pathname}?${query}` : pathname;
+    return query ? `${base}?${query}` : base;
   }, [pathname, searchParams]);
 
   useEffect(() => {

@@ -1,20 +1,27 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../../hooks/useAuth";
 import { Spinner } from "../ui/Spinner";
 
 export function AuthGuard({ children }: { children: ReactNode }) {
   const { status } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const next = useMemo(() => {
+    const query = searchParams.toString();
+    return query ? `${pathname}?${query}` : pathname;
+  }, [pathname, searchParams]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.replace("/login?from=protected");
+      router.replace(`/login?from=protected&next=${encodeURIComponent(next)}`);
     }
-  }, [status, router]);
+  }, [status, router, next]);
 
   if (status === "loading" || status === "idle") {
     return (

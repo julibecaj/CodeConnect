@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import AppShell from "../../../components/AppShell";
-import { AuthGuard } from "../../components/auth/AuthGuard";
+import { AuthGuard } from "@/components/auth/AuthGuard";
 import { Card, EmptyState, Section } from "../../../components/ui";
 import { Badge } from "../../components/ui/Badge";
 import { Button } from "../../components/ui/Button";

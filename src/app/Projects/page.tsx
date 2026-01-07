@@ -2,17 +2,12 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import AppShell from "../../../components/AppShell";
 import { AuthGuard } from "@/components/auth/AuthGuard";
-import { Card, EmptyState, Section } from "../../../components/ui";
-import { Badge } from "../../components/ui/Badge";
-import { Button } from "../../components/ui/Button";
-import { InputField } from "../../components/ui/Input";
-import { Modal } from "../../components/ui/Modal";
-import { Spinner } from "../../components/ui/Spinner";
-import { useToast } from "../../hooks/useToast";
-import { api } from "../../lib/api";
-import type { Project } from "../../lib/types";
+import AppShell from "@/components/layout/AppShell";
+import { Badge, Button, Card, EmptyState, InputField, Modal, Section, Spinner } from "@/components/ui";
+import { useToast } from "@/hooks/useToast";
+import { api } from "@/lib/api";
+import type { Project } from "@/lib/types";
 
 type ProjectDraft = {
   title: string;

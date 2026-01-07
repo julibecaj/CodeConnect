@@ -5,8 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
-import { useAuth } from "../src/hooks/useAuth";
-import { useToast } from "../src/hooks/useToast";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
 
 type AppShellProps = {
   title: string;

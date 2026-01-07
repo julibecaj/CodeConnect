@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import AppShell from "../../../components/AppShell";
 import { AuthGuard } from "@/components/auth/AuthGuard";
-import { Card, EmptyState, Section } from "../../../components/ui";
-import { Button } from "../../components/ui/Button";
-import { Spinner } from "../../components/ui/Spinner";
-import { useToast } from "../../hooks/useToast";
-import { api } from "../../lib/api";
-import type { Post } from "../../lib/types";
+import AppShell from "@/components/layout/AppShell";
+import { Button, Card, EmptyState, Section, Spinner } from "@/components/ui";
+import { useToast } from "@/hooks/useToast";
+import { api } from "@/lib/api";
+import type { Post } from "@/lib/types";
 
 export default function MainPage() {
   const { addToast } = useToast();

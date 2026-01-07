@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
-import Footer from "../../components/Footer";
-import Header from "../../components/Header";
-import TypingLoader from "../../components/TypingLoader";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import TypingLoader from "@/components/loading/TypingLoader";
 
 export default function Home() {
   const [showLoader, setShowLoader] = useState(true);

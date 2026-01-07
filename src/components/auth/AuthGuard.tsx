@@ -3,8 +3,8 @@
 import type { ReactNode } from "react";
 import { useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "../../hooks/useAuth";
-import { Spinner } from "../ui/Spinner";
+import { useAuth } from "@/hooks/useAuth";
+import { Spinner } from "@/components/ui/Spinner";
 
 export function AuthGuard({ children }: { children: ReactNode }) {
   const { status } = useAuth();

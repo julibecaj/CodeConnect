@@ -1,5 +1,5 @@
-import AppShell from "../../../components/AppShell";
-import { Card, Section } from "../../../components/ui";
+import AppShell from "@/components/layout/AppShell";
+import { Card, Section } from "@/components/ui";
 
 export default function SettingsPage() {
   return (

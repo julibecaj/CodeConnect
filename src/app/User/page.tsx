@@ -2,19 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import AppShell from "../../../components/AppShell";
 import { AuthGuard } from "@/components/auth/AuthGuard";
-import { Avatar, Card, EmptyState, Section, Tabs } from "../../../components/ui";
-import { CreatePostForm, PostFormValues } from "../../components/forms/CreatePostForm";
-import { Badge } from "../../components/ui/Badge";
-import { Button } from "../../components/ui/Button";
-import { InputField } from "../../components/ui/Input";
-import { Modal } from "../../components/ui/Modal";
-import { Spinner } from "../../components/ui/Spinner";
-import { useAuth } from "../../hooks/useAuth";
-import { useToast } from "../../hooks/useToast";
-import { api } from "../../lib/api";
-import type { Post, Project, User } from "../../lib/types";
+import AppShell from "@/components/layout/AppShell";
+import { Badge, Button, Card, EmptyState, InputField, Modal, Section, Spinner, Tabs, Avatar } from "@/components/ui";
+import { CreatePostForm, PostFormValues } from "@/components/forms/CreatePostForm";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
+import { api } from "@/lib/api";
+import type { Post, Project, User } from "@/lib/types";
 
 type ProjectDraft = {
   title: string;

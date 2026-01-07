@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-import { Button } from "../../components/ui/Button";
-import { InputField } from "../../components/ui/Input";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import { Button } from "@/components/ui/Button";
+import { InputField } from "@/components/ui/Input";
 import { useToast } from "../../hooks/useToast";
 import { api } from "../../lib/api";
 import { validateEmail } from "../../lib/validators";

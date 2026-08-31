@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import { LoginForm } from "@/components/forms/LoginForm";
 
 export const metadata: Metadata = {
@@ -11,14 +9,7 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <main className="cc-bg cc-auth">
-      <div className="cc-blob cc-blob--tl" />
-      <div className="cc-blob cc-blob--br" />
-
-      <div className="cc-container cc-auth__container">
-        <Header />
-
-        <section className="cc-auth__grid">
+    <section className="cc-auth__grid">
           <div className="cc-auth__card">
             <h1 className="cc-auth__title">Welcome back</h1>
             <p className="cc-auth__lead">
@@ -49,10 +40,6 @@ export default function LoginPage() {
               <li>• Earn credibility through contributions.</li>
             </ul>
           </div>
-        </section>
-      </div>
-
-      <Footer />
-    </main>
+    </section>
   );
 }

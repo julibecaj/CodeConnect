@@ -2,13 +2,11 @@
 
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/Button";
 import { InputField } from "@/components/ui/Input";
-import { useToast } from "../../hooks/useToast";
-import { api } from "../../lib/api";
-import { validateEmail } from "../../lib/validators";
+import { useToast } from "../../../hooks/useToast";
+import { api } from "../../../lib/api";
+import { validateEmail } from "../../../lib/validators";
 
 export default function ForgotPasswordPage() {
   const { addToast } = useToast();
@@ -40,14 +38,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="cc-bg cc-auth">
-      <div className="cc-blob cc-blob--tl" />
-      <div className="cc-blob cc-blob--br" />
-
-      <div className="cc-container cc-auth__container">
-        <Header />
-
-        <section className="cc-auth__grid">
+    <section className="cc-auth__grid">
           <div className="cc-auth__card">
             <h1 className="cc-auth__title">Reset your password</h1>
             <p className="cc-auth__lead">
@@ -91,10 +82,6 @@ export default function ForgotPasswordPage() {
               <li>Never reuse passwords across sites.</li>
             </ul>
           </div>
-        </section>
-      </div>
-
-      <Footer />
-    </main>
+    </section>
   );
 }

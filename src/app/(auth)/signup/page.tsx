@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import { SignupForm } from "@/components/forms/SignupForm";
 
 export const metadata: Metadata = {
@@ -11,14 +9,7 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <main className="cc-bg cc-auth">
-      <div className="cc-blob cc-blob--tl" />
-      <div className="cc-blob cc-blob--br" />
-
-      <div className="cc-container cc-auth__container">
-        <Header />
-
-        <section className="cc-auth__grid">
+    <section className="cc-auth__grid">
           <div className="cc-auth__card">
             <h1 className="cc-auth__title">Create your account</h1>
             <p className="cc-auth__lead">
@@ -41,10 +32,6 @@ export default function SignUpPage() {
               <li>• Follow topics you care about and stay inspired.</li>
             </ul>
           </div>
-        </section>
-      </div>
-
-      <Footer />
-    </main>
+    </section>
   );
 }

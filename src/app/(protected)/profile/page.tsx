@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AuthGuard } from "@/components/auth/AuthGuard";
 import AppShell from "@/components/layout/AppShell";
 import { Badge, Button, Card, EmptyState, InputField, Modal, Section, Spinner, Tabs, Avatar } from "@/components/ui";
 import { CreatePostForm, PostFormValues } from "@/components/forms/CreatePostForm";
@@ -417,18 +416,16 @@ export default function UserPage() {
 
   if (loading) {
     return (
-      <AuthGuard>
-        <AppShell title="Your profile" subtitle="Loading your data...">
-          <div style={{ display: "grid", placeItems: "center", minHeight: "50vh" }}>
-            <Spinner size={36} />
-          </div>
-        </AppShell>
-      </AuthGuard>
+      <AppShell title="Your profile" subtitle="Loading your data...">
+        <div style={{ display: "grid", placeItems: "center", minHeight: "50vh" }}>
+          <Spinner size={36} />
+        </div>
+      </AppShell>
     );
   }
 
   return (
-    <AuthGuard>
+    <>
       <AppShell
         title="Your profile"
         subtitle="Show what you build, share what you learn, and invite collaborators."
@@ -672,6 +669,6 @@ export default function UserPage() {
       >
         <p className="cc-section__desc">Are you sure you want to delete this project? This cannot be undone.</p>
       </Modal>
-    </AuthGuard>
+    </>
   );
 }

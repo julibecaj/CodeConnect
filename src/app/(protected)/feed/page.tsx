@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { AuthGuard } from "@/components/auth/AuthGuard";
 import AppShell from "@/components/layout/AppShell";
 import { Button, Card, EmptyState, Section, Spinner } from "@/components/ui";
 import { useToast } from "@/hooks/useToast";
@@ -187,8 +186,7 @@ export default function MainPage() {
   };
 
   return (
-    <AuthGuard>
-      <AppShell
+    <AppShell
         title="Discover"
         subtitle="Explore what the community is shipping—projects and posts."
         action={
@@ -210,8 +208,7 @@ export default function MainPage() {
         >
           {renderFeed()}
         </Section>
-      </AppShell>
-    </AuthGuard>
+    </AppShell>
   );
 }
 

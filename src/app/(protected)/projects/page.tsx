@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { AuthGuard } from "@/components/auth/AuthGuard";
 import AppShell from "@/components/layout/AppShell";
 import { Badge, Button, Card, EmptyState, InputField, Modal, Section, Spinner } from "@/components/ui";
 import { useToast } from "@/hooks/useToast";
@@ -216,7 +215,7 @@ export default function ProjectsPage() {
   };
 
   return (
-    <AuthGuard>
+    <>
       <AppShell
         title="Projects"
         subtitle="Ship small, share fast. Create a new project or update drafts."
@@ -316,6 +315,6 @@ export default function ProjectsPage() {
       >
         <p className="cc-section__desc">Are you sure you want to delete this project? This cannot be undone.</p>
       </Modal>
-    </AuthGuard>
+    </>
   );
 }

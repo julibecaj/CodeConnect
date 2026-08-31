@@ -216,6 +216,23 @@ function findProject(store: MockStore, id: EntityId): MockProjectRecord {
   return project;
 }
 
+function canReadProject(store: MockStore, project: MockProjectRecord): boolean {
+  return (
+    project.status === "PUBLISHED" || project.ownerId === store.currentUserId
+  );
+}
+
+function findReadableProject(
+  store: MockStore,
+  id: EntityId,
+): MockProjectRecord {
+  const project = findProject(store, id);
+  if (!canReadProject(store, project)) {
+    fail(404, "NOT_FOUND", "Project not found.");
+  }
+  return project;
+}
+
 function assertOwner(ownerId: EntityId, viewerId: EntityId): void {
   if (ownerId !== viewerId) {
     fail(403, "FORBIDDEN", "You do not have permission for this resource.");
@@ -325,17 +342,33 @@ export function createMockApiClient(
 
     forgotPassword(input, requestOptions) {
       return delayed(() => {
-        normalizedEmail(input.email);
+        const email = normalizedEmail(input.email);
+        const user = store.users.find(
+          (candidate) => candidate.email.toLowerCase() === email,
+        );
+        store.pendingPasswordResetUserId = user?.id ?? null;
       }, requestOptions);
     },
 
     resetPassword(input, requestOptions) {
       return delayed(() => {
-        requiredText(input.token, "token");
-        validatePassword(input.newPassword, "newPassword");
-        if (input.token !== "mock-reset-token") {
+        const token = input.token.trim();
+        if (
+          token !== "mock-reset-token" ||
+          !store.pendingPasswordResetUserId
+        ) {
           fail(400, "BAD_REQUEST", "Reset token is invalid or expired.");
         }
+        validatePassword(input.newPassword, "newPassword");
+        const user = store.users.find(
+          (candidate) => candidate.id === store.pendingPasswordResetUserId,
+        );
+        if (!user) {
+          store.pendingPasswordResetUserId = null;
+          fail(400, "BAD_REQUEST", "Reset token is invalid or expired.");
+        }
+        user.password = input.newPassword;
+        store.pendingPasswordResetUserId = null;
       }, requestOptions);
     },
 
@@ -445,6 +478,7 @@ export function createMockApiClient(
         const search = query.search?.trim().toLowerCase();
         const tag = query.tag?.trim().toLowerCase();
         const projects = store.projects
+          .filter((project) => canReadProject(store, project))
           .filter((project) => !query.ownerId || project.ownerId === query.ownerId)
           .filter(
             (project) =>
@@ -470,7 +504,7 @@ export function createMockApiClient(
 
     getProject(id, requestOptions) {
       return delayed(
-        () => projectDetail(store, findProject(store, id)),
+        () => projectDetail(store, findReadableProject(store, id)),
         requestOptions,
       );
     },
@@ -524,7 +558,7 @@ export function createMockApiClient(
     toggleProjectLike(id, requestOptions) {
       return delayed(() => {
         const user = sessionUser(store);
-        const project = findProject(store, id);
+        const project = findReadableProject(store, id);
         if (project.likedBy.has(user.id)) project.likedBy.delete(user.id);
         else project.likedBy.add(user.id);
         return projectDetail(store, project);
@@ -534,7 +568,7 @@ export function createMockApiClient(
     toggleProjectSave(id, requestOptions) {
       return delayed(() => {
         const user = sessionUser(store);
-        const project = findProject(store, id);
+        const project = findReadableProject(store, id);
         if (project.savedBy.has(user.id)) project.savedBy.delete(user.id);
         else project.savedBy.add(user.id);
         return projectDetail(store, project);

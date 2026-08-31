@@ -48,6 +48,7 @@ export type MockStore = {
   posts: MockPostRecord[];
   projects: MockProjectRecord[];
   currentUserId: EntityId | null;
+  pendingPasswordResetUserId: EntityId | null;
   nextUserNumber: number;
   nextPostNumber: number;
   nextProjectNumber: number;
@@ -70,6 +71,7 @@ export function createMockStore(initialUserId: EntityId | null): MockStore {
       savedBy: new Set(project.savedBy),
     })),
     currentUserId: initialUserId,
+    pendingPasswordResetUserId: null,
     nextUserNumber: mockUserFixtures.length + 1,
     nextPostNumber: mockPostFixtures.length + 1,
     nextProjectNumber: mockProjectFixtures.length + 1,

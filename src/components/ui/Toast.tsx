@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import type { Toast } from "../../hooks/useToast";
 import { Button } from "./Button";
 
@@ -26,7 +25,11 @@ export function ToastContainer({ toasts, onDismiss }: ToastContainerProps) {
       }}
     >
       {toasts.map((toast) => (
-        <ToastItem key={toast.id} toast={toast} onDismiss={() => onDismiss(toast.id)} />
+        <ToastItem
+          key={toast.id}
+          toast={toast}
+          onDismiss={() => onDismiss(toast.id)}
+        />
       ))}
     </div>
   );
@@ -38,7 +41,13 @@ function toneColors(type?: Toast["type"]) {
   return { border: "#4fc1ff", text: "#e0f2fe" };
 }
 
-function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: () => void }) {
+function ToastItem({
+  toast,
+  onDismiss,
+}: {
+  toast: Toast;
+  onDismiss: () => void;
+}) {
   const { border, text } = toneColors(toast.type);
   return (
     <div
@@ -56,7 +65,12 @@ function ToastItem({ toast, onDismiss }: { toast: Toast; onDismiss: () => void }
           {toast.title && <strong>{toast.title}</strong>}
           <span style={{ color: "inherit" }}>{toast.message}</span>
         </div>
-        <Button variant="ghost" type="button" onClick={onDismiss} aria-label="Dismiss notification">
+        <Button
+          variant="ghost"
+          type="button"
+          onClick={onDismiss}
+          aria-label="Dismiss notification"
+        >
           ×
         </Button>
       </div>

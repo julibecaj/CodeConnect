@@ -21,10 +21,15 @@ const navItems = [
   { href: "/User", label: "Profile", match: "/User" },
 ];
 
-export default function AppShell({ title, subtitle, action, children }: AppShellProps) {
+export default function AppShell({
+  title,
+  subtitle,
+  action,
+  children,
+}: AppShellProps) {
   const pathname = usePathname();
   const [searchOpen, setSearchOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const { addToast } = useToast();
 
   const filters = useMemo(
@@ -38,13 +43,27 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
 
   return (
     <div className="cc-shell">
-      <header className="cc-shell__topbar" style={{ position: "sticky", top: 0, zIndex: 30 }}>
+      <header
+        className="cc-shell__topbar"
+        style={{ position: "sticky", top: 0, zIndex: 30 }}
+      >
         <div className="cc-shell__brand" role="banner">
           <div className="cc-shell__logo cc-shell__logo--badge">
-            <Image src="/assets/cc_logo2.svg" width={32} height={32} alt="CC monogram" />
+            <Image
+              src="/assets/cc_logo2.svg"
+              width={32}
+              height={32}
+              alt="CC monogram"
+            />
           </div>
           <div className="cc-shell__brand-text">
-            <Image src="/assets/codeconnect_logo.svg" width={142} height={32} alt="CodeConnect" priority />
+            <Image
+              src="/assets/codeconnect_logo.svg"
+              width={142}
+              height={32}
+              alt="CodeConnect"
+              priority
+            />
             <small>Creator Console</small>
           </div>
         </div>
@@ -52,7 +71,8 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
         <nav className="cc-shell__nav cc-shell__nav--top">
           {navItems.map((item) => {
             const isActive =
-              pathname === item.href || (item.match !== "/" && pathname?.startsWith(item.match));
+              pathname === item.href ||
+              (item.match !== "/" && pathname?.startsWith(item.match));
             return (
               <Link
                 key={item.href}
@@ -79,8 +99,11 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
             onClick={async () => {
               try {
                 await logout();
-              } catch (err) {
-                addToast({ type: "error", message: "Logout failed. Please try again." });
+              } catch {
+                addToast({
+                  type: "error",
+                  message: "Logout failed. Please try again.",
+                });
               }
             }}
           >
@@ -99,14 +122,18 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
               placeholder="Search posts, projects, people"
               aria-label="Advanced search"
             />
-            <button className="cc-pillbtn cc-pillbtn--primary" type="button">Search</button>
+            <button className="cc-pillbtn cc-pillbtn--primary" type="button">
+              Search
+            </button>
           </div>
           <div className="cc-advnav__filters">
             <div className="cc-advnav__group">
               <span>Type</span>
               <div className="cc-advnav__chips">
                 {filters.type.map((label) => (
-                  <button key={label} className="cc-pillbtn" type="button">{label}</button>
+                  <button key={label} className="cc-pillbtn" type="button">
+                    {label}
+                  </button>
                 ))}
               </div>
             </div>
@@ -114,7 +141,9 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
               <span>Tags</span>
               <div className="cc-advnav__chips">
                 {filters.tags.map((label) => (
-                  <button key={label} className="cc-pillbtn" type="button">{label}</button>
+                  <button key={label} className="cc-pillbtn" type="button">
+                    {label}
+                  </button>
                 ))}
               </div>
             </div>
@@ -122,7 +151,9 @@ export default function AppShell({ title, subtitle, action, children }: AppShell
               <span>Sort</span>
               <div className="cc-advnav__chips">
                 {filters.sort.map((label) => (
-                  <button key={label} className="cc-pillbtn" type="button">{label}</button>
+                  <button key={label} className="cc-pillbtn" type="button">
+                    {label}
+                  </button>
                 ))}
               </div>
             </div>

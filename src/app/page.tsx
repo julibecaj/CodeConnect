@@ -3,6 +3,7 @@ import { useState } from "react";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import TypingLoader from "@/components/loading/TypingLoader";
+import Image from "next/image";
 
 export default function Home() {
   const [showLoader, setShowLoader] = useState(true);
@@ -23,11 +24,21 @@ export default function Home() {
 
         {/* Hero */}
         <section className="cc-hero">
-          <span className="cc-bubble" data-bubble="share">Share</span>
-          <span className="cc-bubble" data-bubble="explore">Explore</span>
-          <span className="cc-bubble" data-bubble="empower">Empower</span>
-          <span className="cc-bubble" data-bubble="code">Code</span>
-          <span className="cc-bubble" data-bubble="learn">Learn</span>
+          <span className="cc-bubble" data-bubble="share">
+            Share
+          </span>
+          <span className="cc-bubble" data-bubble="explore">
+            Explore
+          </span>
+          <span className="cc-bubble" data-bubble="empower">
+            Empower
+          </span>
+          <span className="cc-bubble" data-bubble="code">
+            Code
+          </span>
+          <span className="cc-bubble" data-bubble="learn">
+            Learn
+          </span>
 
           <div className="cc-hero__center">
             <h1 className="cc-hero__title">CodeConnect</h1>
@@ -42,8 +53,8 @@ export default function Home() {
           <article className="cc-card">
             <h4 className="cc-card__title">A platform to connect</h4>
             <p className="cc-card__desc">
-              Connect with other developers from every part of the world.
-              Ask questions, share knowledge, and collaborate on projects.
+              Connect with other developers from every part of the world. Ask
+              questions, share knowledge, and collaborate on projects.
             </p>
           </article>
 
@@ -67,21 +78,30 @@ export default function Home() {
         {/* Illustrations */}
         <section className="cc-illustrations">
           <div className="cc-ill">
-            <img
+            <Image
               alt="Community mobile illustrations"
               src="https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop"
+              width={1200}
+              height={800}
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
           </div>
           <div className="cc-ill">
-            <img
+            <Image
               alt="Code editor"
               src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop"
+              width={1200}
+              height={800}
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
           </div>
           <div className="cc-ill">
-            <img
-              alt="Learning and sharing"
+            <Image
+              alt="Developers learning and sharing"
               src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop"
+              width={1200}
+              height={800}
+              sizes="(max-width: 768px) 100vw, 33vw"
             />
           </div>
         </section>
@@ -96,14 +116,24 @@ export default function Home() {
 
         {/* CTA */}
         <section className="cc-cta">
-          <p className="cc-cta__lead">So, do you want to take part on the ride?</p>
+          <p className="cc-cta__lead">
+            So, do you want to take part on the ride?
+          </p>
           <a className="cc-btn cc-btn--cta" href="/signup">
             Sign Up Now
             <svg className="cc-icon" viewBox="0 0 24 24" fill="none">
-              <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path
+                d="M5 12h14M13 5l7 7-7 7"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </a>
-          <p className="cc-cta__sub">Be part of the most incredible community!</p>
+          <p className="cc-cta__sub">
+            Be part of the most incredible community!
+          </p>
         </section>
 
         <Footer />

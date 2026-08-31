@@ -2,12 +2,14 @@
   "name": "codeconnect",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint"
-  },
+"scripts": {
+  "dev": "next dev --turbopack",
+  "build": "next build --turbopack",
+  "start": "next start",
+  "lint": "eslint --max-warnings=0",
+  "typecheck": "tsc --noEmit",
+  "check": "npm run typecheck && npm run lint && npm run build"
+},
   "dependencies": {
     "next": "^15.5.7",
     "ogl": "^1.0.11",

@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { SignupForm } from "@/components/forms/SignupForm";
 
 export const metadata: Metadata = {
   title: "Sign Up | CodeConnect",
-  description: "Create your CodeConnect account to share projects, tutorials, and questions.",
+  description:
+    "Create your CodeConnect account to share projects, tutorials, and questions.",
 };
 
 export default function SignUpPage() {
@@ -22,7 +22,8 @@ export default function SignUpPage() {
           <div className="cc-auth__card">
             <h1 className="cc-auth__title">Create your account</h1>
             <p className="cc-auth__lead">
-              Join the community of builders. Publish tutorials, ask questions, bookmark the best resources, and find collaborators.
+              Join the community of builders. Publish tutorials, ask questions,
+              bookmark the best resources, and find collaborators.
             </p>
 
             <SignupForm />

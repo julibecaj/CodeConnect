@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Suspense } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { LoginForm } from "@/components/forms/LoginForm";
@@ -22,15 +22,25 @@ export default function LoginPage() {
           <div className="cc-auth__card">
             <h1 className="cc-auth__title">Welcome back</h1>
             <p className="cc-auth__lead">
-              Log in to pick up where you left off, collaborate with peers, and keep shipping.
+              Log in to pick up where you left off, collaborate with peers, and
+              keep shipping.
             </p>
-            <LoginForm />
+            <Suspense
+              fallback={
+                <p className="cc-formhint" role="status">
+                  Loading login form...
+                </p>
+              }
+            >
+              <LoginForm />
+            </Suspense>
           </div>
 
           <div className="cc-auth__card">
             <h2 className="cc-auth__title">Why log in?</h2>
             <p className="cc-auth__lead">
-              Save your tutorials, publish projects, and get tailored recommendations from the community.
+              Save your tutorials, publish projects, and get tailored
+              recommendations from the community.
             </p>
             <ul className="cc-footer__list">
               <li>• Ask questions and get quick answers.</li>

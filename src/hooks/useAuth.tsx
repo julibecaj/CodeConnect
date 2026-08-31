@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useRouter } from "next/navigation";
 import { api } from "../lib/api";
 import { clearAuthTokens, persistAuthTokens, USE_JWT } from "../lib/auth";
@@ -14,7 +22,11 @@ type AuthContextValue = {
   authMode: "cookie" | "jwt";
   error?: string | null;
   login: (input: { email: string; password: string }) => Promise<AuthResponse>;
-  signup: (input: { name: string; email: string; password: string }) => Promise<AuthResponse>;
+  signup: (input: {
+    name: string;
+    email: string;
+    password: string;
+  }) => Promise<AuthResponse>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<User | null>;
 };
@@ -26,15 +38,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [status, setStatus] = useState<AuthStatus>("idle");
   const [error, setError] = useState<string | null>(null);
-  const authMode = USE_JWT ? "jwt" : "cookie";
-
+  const authMode: AuthContextValue["authMode"] = USE_JWT ? "jwt" : "cookie";
   const bootstrap = useCallback(async () => {
     setStatus("loading");
     try {
       const me = await api.me();
       setUser(me);
       setStatus("authenticated");
-    } catch (err) {
+    } catch {
       setUser(null);
       setStatus("unauthenticated");
     }
@@ -76,7 +87,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return res;
       } catch (err) {
         setStatus("unauthenticated");
-        const message = err instanceof Error ? err.message : "Unable to sign up";
+        const message =
+          err instanceof Error ? err.message : "Unable to sign up";
         setError(message);
         throw err;
       }
@@ -88,7 +100,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setStatus("loading");
     try {
       await api.logout();
-    } catch (err) {
+    } catch {
       // ignore logout errors; tokens are cleared below
     } finally {
       clearAuthTokens();
@@ -104,7 +116,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(me);
       setStatus("authenticated");
       return me;
-    } catch (err) {
+    } catch {
       setUser(null);
       setStatus("unauthenticated");
       return null;

@@ -1,12 +1,21 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useEffect, useMemo } from "react";
+import { Suspense, useEffect, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
 import { Spinner } from "@/components/ui/Spinner";
+import { useAuth } from "@/hooks/useAuth";
 
-export function AuthGuard({ children }: { children: ReactNode }) {
+function SessionLoading() {
+  return (
+    <div style={{ display: "grid", placeItems: "center", minHeight: "60vh" }}>
+      <Spinner size={32} />
+      <p className="cc-formhint">Checking your session...</p>
+    </div>
+  );
+}
+
+function AuthGuardContent({ children }: { children: ReactNode }) {
   const { status } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -15,6 +24,7 @@ export function AuthGuard({ children }: { children: ReactNode }) {
   const next = useMemo(() => {
     const base = pathname || "/";
     const query = searchParams.toString();
+
     return query ? `${base}?${query}` : base;
   }, [pathname, searchParams]);
 
@@ -25,12 +35,7 @@ export function AuthGuard({ children }: { children: ReactNode }) {
   }, [status, router, next]);
 
   if (status === "loading" || status === "idle") {
-    return (
-      <div style={{ display: "grid", placeItems: "center", minHeight: "60vh" }}>
-        <Spinner size={32} />
-        <p className="cc-formhint">Checking your session...</p>
-      </div>
-    );
+    return <SessionLoading />;
   }
 
   if (status === "unauthenticated") {
@@ -42,4 +47,12 @@ export function AuthGuard({ children }: { children: ReactNode }) {
   }
 
   return <>{children}</>;
+}
+
+export function AuthGuard({ children }: { children: ReactNode }) {
+  return (
+    <Suspense fallback={<SessionLoading />}>
+      <AuthGuardContent>{children}</AuthGuardContent>
+    </Suspense>
+  );
 }

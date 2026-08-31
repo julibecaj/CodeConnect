@@ -1,7 +1,8 @@
 import { authHeaders, clearAuthTokens, credentialsMode, persistAuthTokens, USE_JWT } from "./auth";
 import type { APIError, AuthResponse, Paginated, Post, Project, User } from "./types";
+import { clientEnv } from "./env/client";
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "http://localhost:8080");
+const API_BASE = clientEnv.apiBaseUrl;
 
 type RequestOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE";

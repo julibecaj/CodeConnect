@@ -1,11 +1,12 @@
 "use client";
 
 import { AuthResponse } from "./types";
+import { clientEnv } from "./env/client";
 
 const TOKEN_KEY = "cc_jwt_token";
 const REFRESH_TOKEN_KEY = "cc_refresh_token";
 
-export const USE_JWT = process.env.NEXT_PUBLIC_USE_JWT === "true";
+export const USE_JWT = clientEnv.useJwt;
 
 export function getStoredToken(): string | null {
   if (typeof window === "undefined" || !USE_JWT) return null;

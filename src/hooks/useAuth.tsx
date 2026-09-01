@@ -36,11 +36,10 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
-  const [status, setStatus] = useState<AuthStatus>("idle");
+  const [status, setStatus] = useState<AuthStatus>("loading");
   const [error, setError] = useState<string | null>(null);
   const authMode: AuthContextValue["authMode"] = USE_JWT ? "jwt" : "cookie";
   const bootstrap = useCallback(async () => {
-    setStatus("loading");
     try {
       const me = await api.me();
       setUser(me);
@@ -52,7 +51,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    bootstrap();
+    const bootstrapTimeout = setTimeout(() => {
+      void bootstrap();
+    }, 0);
+
+    return () => clearTimeout(bootstrapTimeout);
   }, [bootstrap]);
 
   const login = useCallback(

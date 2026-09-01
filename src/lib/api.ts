@@ -65,11 +65,12 @@ async function request<T>(path: string, options: RequestOptions = {}): Promise<T
   const data = await parseResponse(res);
 
   if (!res.ok) {
-    if (res.status === 401) {
+    if (res.status === 401 && authenticated) {
       clearAuthTokens();
       if (typeof window !== "undefined") {
-        const qs = new URLSearchParams({ from: "protected" });
-        window.location.assign(`/login?${qs.toString()}`);
+        const loginUrl = new URL("/login", window.location.origin);
+        loginUrl.searchParams.set("from", "protected");
+        window.location.assign(loginUrl.href);
       }
     }
 

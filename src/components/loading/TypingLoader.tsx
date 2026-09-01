@@ -20,10 +20,9 @@ const TypingLoader: React.FC<TypingLoaderProps> = ({
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    setDisplayedText("");
     let index = 0;
-    let typingTimeout: NodeJS.Timeout;
-    let hideTimeout: NodeJS.Timeout;
+    let typingTimeout: ReturnType<typeof setTimeout>;
+    let hideTimeout: ReturnType<typeof setTimeout>;
 
     const type = () => {
       if (index < targetText.length) {
@@ -39,9 +38,14 @@ const TypingLoader: React.FC<TypingLoaderProps> = ({
       }
     };
 
-    type();
+    const startTimeout = setTimeout(() => {
+      setDisplayedText("");
+      setIsVisible(true);
+      type();
+    }, 0);
 
     return () => {
+      clearTimeout(startTimeout);
       clearTimeout(typingTimeout);
       clearTimeout(hideTimeout);
     };
